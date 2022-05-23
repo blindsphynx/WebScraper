@@ -1,6 +1,6 @@
 from bs4 import BeautifulSoup
 import requests
-
+import re
 
 def getLinksFromTable(link):
     page = requests.get(link)
@@ -24,4 +24,12 @@ array = getLinksFromTable(URL)
 
 for i in range(len(array)):
     next_link = array[i]
-    print(getTexts(next_link))
+    texts = re.split(r'(\[.+\s\d+\])', getTexts(next_link))
+
+    file = open(F"текст{i}.txt", "w+", encoding='utf-8')
+    file.write(texts[2])
+    file.close()
+
+    file = open(F"плагиат{i}.txt", "w+", encoding='utf-8')
+    file.write(texts[4])
+    file.close()
